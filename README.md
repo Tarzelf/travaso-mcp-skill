@@ -143,3 +143,9 @@ expectations and reduces chargebacks.
 ## License
 
 MIT — use it, fork it, ship it.
+
+## Related
+
+- [Marketing content pack](https://github.com/Tarzelf/travaso-mcp-content) — pitch deck, landing variants, social posts
+- [Setup docs (canonical)](https://elitetravelsales.com/tokens/setup) — source of truth for config snippets
+- [Agent stats dashboard](https://elitetravelsales.com/agents/stats) — sales, bookings, payouts
