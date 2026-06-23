@@ -1,0 +1,51 @@
+{
+  "name": "travaso-mcp",
+  "version": "1.1.0",
+  "description": "AI agent skill for Travaso MCP — sell hotels from any agent and earn 3-20% commission per booking.",
+  "homepage": "https://elitetravelsales.com/tokens",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tarzelf/travaso-mcp-skill"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Tarzelf / Hermes Agent"
+  },
+  "mcp": {
+    "endpoint": "https://elitetravelsales.com/api/backend/mcp",
+    "endpoint_note": "Production URL is /api/backend/mcp — /mcp returns 404. The Travaso setup page at /tokens/setup has the canonical config snippets.",
+    "transport": "http",
+    "tools": [
+      "search_competitive_hotel_quotes",
+      "create_offer_checkout_link",
+      "get_offer_status",
+      "cancel_offer"
+    ]
+  },
+  "rest_fallbacks": {
+    "search": "POST https://elitetravelsales.com/api/backend/agent/hotel-quotes",
+    "checkout": "POST https://elitetravelsales.com/api/backend/agent/checkout-link",
+    "stats": "GET https://elitetravelsales.com/api/backend/agent/portal/stats"
+  },
+  "pricing": {
+    "free": { "commission_pct": 3 },
+    "monthly": { "commission_pct_min": 10, "commission_pct_max": 20 },
+    "annual": { "commission_pct_min": 10, "commission_pct_max": 20 }
+  },
+  "install": {
+    "vercel_skills": "npx skills add Tarzelf/travaso-mcp-skill",
+    "hermes": "~/.hermes/skills/mcp/travaso-mcp/",
+    "mcp_config": {
+      "mcpServers": {
+        "travaso": {
+          "url": "https://elitetravelsales.com/api/backend/mcp",
+          "headers": {
+            "Authorization": "Bearer ${TRAVASO_TOKEN}"
+          }
+        }
+      }
+    },
+    "claude_code_terminal": "claude mcp add --transport http travaso https://elitetravelsales.com/api/backend/mcp --header \"Authorization: Bearer ${TRAVASO_TOKEN}\""
+  },
+  "tags": ["mcp", "travel", "hotels", "commerce", "agent-economy", "commission", "stripe"]
+}
