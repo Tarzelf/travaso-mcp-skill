@@ -1,5 +1,7 @@
 # Travaso MCP — AI Agent Skill
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE) [![Version: 1.2.0](https://img.shields.io/badge/version-1.2.0-green.svg)]() [![Install with npx skills](https://img.shields.io/badge/npx%20skills-Tarzelf%2Ftravaso--mcp--skill-black?logo=npm)](https://skills.sh/tarzelf/travaso-mcp-skill)
+
 **Sell hotels from any AI agent. Earn 3–20% commission per booking.**
 
 This is the public skill for [Travaso MCP](https://elitetravelsales.com/tokens),
@@ -141,3 +143,9 @@ expectations and reduces chargebacks.
 ## License
 
 MIT — use it, fork it, ship it.
+
+## Related
+
+- [Marketing content pack](https://github.com/Tarzelf/travaso-mcp-content) — pitch deck, landing variants, social posts
+- [Setup docs (canonical)](https://elitetravelsales.com/tokens/setup) — source of truth for config snippets
+- [Agent stats dashboard](https://elitetravelsales.com/agents/stats) — sales, bookings, payouts

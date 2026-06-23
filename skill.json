@@ -57,5 +57,10 @@
     },
     "claude_code_terminal": "claude mcp add --transport http travaso https://elitetravelsales.com/api/backend/mcp --header \"Authorization: Bearer <TRAVASO_AGENT_TOKEN>\""
   },
-  "tags": ["mcp", "travel", "hotels", "commerce", "agent-economy", "commission", "stripe"]
+  "tags": ["mcp", "travel", "hotels", "commerce", "agent-economy", "commission", "stripe"],
+  "links": {
+    "marketing_content": "https://github.com/Tarzelf/travaso-mcp-content",
+    "setup_docs": "https://elitetravelsales.com/tokens/setup",
+    "stats_dashboard": "https://elitetravelsales.com/agents/stats"
+  }
 }
