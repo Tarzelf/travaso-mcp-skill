@@ -1,7 +1,7 @@
 {
   "name": "travaso-mcp",
-  "version": "1.1.0",
-  "description": "AI agent skill for Travaso MCP — sell hotels from any agent and earn 3-20% commission per booking.",
+  "version": "1.2.0",
+  "description": "AI agent skill for Travaso MCP \u2014 sell hotels from any agent and earn 3-20% commission per booking.",
   "homepage": "https://elitetravelsales.com/tokens",
   "repository": {
     "type": "git",
@@ -13,7 +13,11 @@
   },
   "mcp": {
     "endpoint": "https://elitetravelsales.com/api/backend/mcp",
-    "endpoint_note": "Production URL is /api/backend/mcp — /mcp returns 404. The Travaso setup page at /tokens/setup has the canonical config snippets.",
+    "endpoint_alias": {
+      "url": "https://elitetravelsales.com/mcp",
+      "redirects_to": "https://elitetravelsales.com/api/backend/mcp",
+      "redirect_status": 307
+    },
     "transport": "http",
     "tools": [
       "search_competitive_hotel_quotes",
@@ -21,6 +25,12 @@
       "get_offer_status",
       "cancel_offer"
     ]
+  },
+  "auth": {
+    "canonical_env_var": "TRAVASO_AGENT_TOKEN",
+    "fallback_env_vars": ["TRAVASO_TOKEN", "TRAVASO_API_KEY"],
+    "primary_header_format": "Authorization: Bearer <TRAVASO_AGENT_TOKEN>",
+    "fallback_header_format": "x-travaso-agent-token: <TRAVASO_AGENT_TOKEN>"
   },
   "rest_fallbacks": {
     "search": "POST https://elitetravelsales.com/api/backend/agent/hotel-quotes",
@@ -40,12 +50,12 @@
         "travaso": {
           "url": "https://elitetravelsales.com/api/backend/mcp",
           "headers": {
-            "Authorization": "Bearer ${TRAVASO_TOKEN}"
+            "Authorization": "Bearer <TRAVASO_AGENT_TOKEN>"
           }
         }
       }
     },
-    "claude_code_terminal": "claude mcp add --transport http travaso https://elitetravelsales.com/api/backend/mcp --header \"Authorization: Bearer ${TRAVASO_TOKEN}\""
+    "claude_code_terminal": "claude mcp add --transport http travaso https://elitetravelsales.com/api/backend/mcp --header \"Authorization: Bearer <TRAVASO_AGENT_TOKEN>\""
   },
   "tags": ["mcp", "travel", "hotels", "commerce", "agent-economy", "commission", "stripe"]
 }

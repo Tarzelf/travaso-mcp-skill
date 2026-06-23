@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.0 — 2026-06-23
+- **Compatibility alias confirmed:** `/mcp` now 307-redirects to
+  `/api/backend/mcp`. Updated docs to call this out; older configs
+  keep working. Prefer the canonical URL for new integrations.
+- **Canonical env var name:** `TRAVASO_AGENT_TOKEN`. Health check
+  and SKILL.md now use this name; `TRAVASO_TOKEN` and `TRAVASO_API_KEY`
+  still accepted as fallbacks for clients that standardised earlier.
+- **Health check messaging updated** to reflect the redirect
+  (mistyped paths still 404, but the bare `/mcp` path now works).
+
 ## 1.1.0 — 2026-06-23
 - **Endpoint fix:** switched from `https://elitetravelsales.com/mcp` to
   the production URL `https://elitetravelsales.com/api/backend/mcp`.

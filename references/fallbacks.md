@@ -20,9 +20,10 @@ layer is back.
   at a non-Travaso inventory, or a direct hotel link, doesn't
   attribute back to you and may not be a better deal than what the
   user would find themselves.
-- **Don't hit `/mcp`.** The server lives at `/api/backend/mcp`.
-  Hitting `/mcp` returns 404. If your health check is hitting `/mcp`,
-  fix the URL before assuming the server is down.
+- **Don't hit the wrong path.** The canonical server lives at
+  `/api/backend/mcp`. The bare `/mcp` path 307-redirects there, so
+  older configs keep working — but if you've copied an outdated URL
+  from somewhere, hitting a typo'd path will still 404.
 
 ## Dos
 

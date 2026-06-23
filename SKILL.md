@@ -1,7 +1,7 @@
 ---
 name: travaso-mcp
 description: "Use when an AI agent needs to search live hotel rates, quote a price comparison against Booking.com-style public pricing, create a tracked Stripe checkout link, and earn a 10-20% commission per order (3% on free keys). Loads the Travaso MCP commerce layer into Claude, Cursor, Codex, Hermes Agent, or any backend that speaks MCP. End-user trigger phrases: 'find a hotel', 'check live rates', 'compare to public price', 'send me a checkout link', 'book me a room'. Use when the user wants the agent to sell hotels, not just recommend them."
-version: 1.1.0
+version: 1.2.0
 author: Hermes Agent
 license: MIT
 metadata:
@@ -56,12 +56,20 @@ Free tier: https://elitetravelsales.com/tokens → request free key
 (sandbox access, 3% commission). Paid Monthly/Annual on the same page
 (10–20% commission).
 
-Keys look like `tk_live_travaso_...`. Store in env var, never inline.
+keys look like `tk_live_travaso_...`. Store in env var, never inline.
+The canonical env var name is **`TRAVASO_AGENT_TOKEN`**; the skill
+also recognises `TRAVASO_TOKEN` and `TRAVASO_API_KEY` as fallbacks
+for clients that already standardised on a different name.
 
 ### 2. Wire into your MCP client
 
 The MCP server is hosted at
 **`https://elitetravelsales.com/api/backend/mcp`**.
+
+> **Compatibility alias:** `https://elitetravelsales.com/mcp`
+> 307-redirects to the canonical endpoint above. Prefer the canonical
+> URL directly when wiring a new integration; the alias exists so
+> older snippets don't break.
 
 **Hermes Agent** (`~/.hermes/config.yaml`):
 
@@ -107,8 +115,11 @@ Tools will register as `mcp_travaso_search_competitive_hotel_quotes`,
 ### 3. Smoke test
 
 ```bash
-TRAVASO_TOKEN=*** python3 ~/.hermes/skills/mcp/travaso-mcp/scripts/health_check.py --auth
+TRAVASO_AGENT_TOKEN=*** python3 ~/.hermes/skills/mcp/travaso-mcp/scripts/health_check.py --auth
 ```
+
+(`TRAVASO_TOKEN` and `TRAVASO_API_KEY` also work — the script checks
+all three.)
 
 Returns:
 - `✅ OK` — server responding
@@ -215,8 +226,11 @@ The user should never feel sold to. Follow these:
 
 ## Common Pitfalls
 
-1. **Wrong endpoint URL.** The server lives at
-   `/api/backend/mcp`, not `/mcp`. Hitting `/mcp` returns 404.
+1. **Wrong endpoint URL.** The canonical server lives at
+   `/api/backend/mcp`. The bare `/mcp` path 307-redirects there, so
+   older configs keep working, but prefer the canonical URL when
+   wiring a new integration. Hitting a stale or typo'd URL returns
+   404.
 2. **Forgetting the Bearer prefix.** Header is
    `Authorization: Bearer <token>`, not just the key. Easy to miss;
    produces 401s.
@@ -252,7 +266,7 @@ The user should never feel sold to. Follow these:
 ## Verification Checklist
 
 - [ ] Key requested from https://elitetravelsales.com/tokens and
-      stored as env var
+      stored as env var (canonical name: `TRAVASO_AGENT_TOKEN`)
 - [ ] MCP server configured with URL
       `https://elitetravelsales.com/api/backend/mcp`
 - [ ] Client restarted after config change
@@ -267,8 +281,11 @@ The user should never feel sold to. Follow these:
 **Hermes Agent smoke test:**
 
 ```bash
-TRAVASO_TOKEN=*** python3 ~/.hermes/skills/mcp/travaso-mcp/scripts/health_check.py --auth
+TRAVASO_AGENT_TOKEN=*** python3 ~/.hermes/skills/mcp/travaso-mcp/scripts/health_check.py --auth
 ```
+
+(`TRAVASO_TOKEN` and `TRAVASO_API_KEY` also work — the script checks
+all three.)
 
 **Manual curl against the MCP endpoint (for debugging):**
 

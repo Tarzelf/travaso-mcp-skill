@@ -16,8 +16,9 @@ Exit codes:
 Auth:
   - By default, sends an unauthenticated initialize so you can verify
     the server is up at the URL.
-  - Pass --auth to include the bearer token from env (TRAVASO_TOKEN or
-    TRAVASO_API_KEY) to verify your key works end-to-end.
+  - Pass --auth to include the bearer token from env
+    (`TRAVASO_AGENT_TOKEN`, with `TRAVASO_TOKEN` and `TRAVASO_API_KEY`
+    accepted as fallbacks) to verify your key works end-to-end.
 """
 import json
 import os
@@ -55,9 +56,14 @@ def main() -> int:
         method="POST",
     )
     if "--auth" in sys.argv:
-        token = os.environ.get("TRAVASO_TOKEN") or os.environ.get("TRAVASO_API_KEY")
+        token = (
+            os.environ.get("TRAVASO_AGENT_TOKEN")
+            or os.environ.get("TRAVASO_TOKEN")
+            or os.environ.get("TRAVASO_API_KEY")
+        )
         if not token:
-            print("❌ --auth passed but TRAVASO_TOKEN / TRAVASO_API_KEY is not set")
+            print("❌ --auth passed but no token found in env")
+            print("   Set one of: TRAVASO_AGENT_TOKEN, TRAVASO_TOKEN, TRAVASO_API_KEY")
             return 2
         req.add_header("Authorization", f"Bearer {token}")
 
@@ -77,7 +83,8 @@ def main() -> int:
             print("   Travaso MCP server is not deployed at this URL.")
             print("   The correct production URL is:")
             print("     https://elitetravelsales.com/api/backend/mcp")
-            print("   (NOT /mcp — that path returns 404.)")
+            print("   (The bare /mcp path 307-redirects to that URL too,")
+            print("    but if you're seeing 404 you've mistyped the path.)")
             print("   Notify the operator. Do NOT quote rates until it recovers.")
             return 1
         print(f"❌ HTTP {e.code} from {ENDPOINT}: {e.reason}")

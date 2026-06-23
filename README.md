@@ -51,15 +51,23 @@ Free tier earns 3% commission. Monthly/Annual earns 10–20%.
 
 ## ⚠️ Endpoint notes
 
-- The MCP server is hosted at `/api/backend/mcp`, **not** `/mcp`.
-  Hitting `/mcp` returns 404 — this is a known wart of the current
-  Travaso deploy. The setup page at
-  [/tokens/setup](https://elitetravelsales.com/tokens/setup) has the
-  canonical config snippets; we mirror them here.
+- The MCP server is hosted at `/api/backend/mcp` (canonical URL).
+  The bare `/mcp` path **307-redirects** to the canonical URL, so
+  older configs and snippets keep working — prefer the canonical URL
+  directly when wiring a new integration.
 - Production pages: `/tokens`, `/tokens/setup`, `/agents/stats`. The
   pages `/pricing`, `/stats`, `/docs` return 404 — those are not the
   current route names. Use `/tokens` for pricing and `/agents/stats`
   for the agent dashboard.
+
+## Auth
+
+The canonical env var name is `TRAVASO_AGENT_TOKEN`. The skill also
+accepts `TRAVASO_TOKEN` and `TRAVASO_API_KEY` as fallbacks for clients
+that already standardised on a different name.
+
+Header format: `Authorization: Bearer *** Some MCP clients can't set `Authorization` — Travaso
+also accepts `x-travaso-agent-token: <token>` with the same value.
 
 ## What's in this repo
 
